@@ -399,7 +399,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
+Your Name - Manan Panchal
 
 Project Link: [https://github.com/yourusername/yolo-traffic-counter](https://github.com/yourusername/yolo-traffic-counter)
 
