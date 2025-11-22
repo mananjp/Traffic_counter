@@ -8,26 +8,4 @@
 [[redirects]]
   from = "/*"
   to = "/"
-  status = 200 base = "."
-  command = "python -m pip install --upgrade pip && pip install -r requirements.txt && python setup.py"
-  publish = "."
-
-[build.environment]
-  PYTHON_VERSION = "3.9"
-  STREAMLIT_SERVER_HEADLESS = "true"
-  STREAMLIT_SERVER_ENABLE_CORS = "false"
-  
-[[redirects]]
-  from = "/*"
-  to = "/"
   status = 200
-
-[build.processing]
-  skip_processing = false
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
