@@ -297,22 +297,22 @@ with tab2:
                 run_webcam = False
             else:
                 cap = cv2.VideoCapture(camera_index)
+                
+                if not cap.isOpened():
+                    st.error(f"❌ Cannot access camera {camera_index}. Please check your camera or try a different index.")
+                else:
+                    st.success(f"✅ Camera {camera_index} connected successfully!")
 
-            if not cap.isOpened():
-                st.error(f"❌ Cannot access camera {camera_index}. Please check your camera or try a different index.")
-            else:
-                st.success(f"✅ Camera {camera_index} connected successfully!")
+                    frame_count = 0
+                    fps_queue = deque(maxlen=30)
 
-                frame_count = 0
-                fps_queue = deque(maxlen=30)
+                    while run_webcam:
+                        start_time = time.time()
 
-                while run_webcam:
-                    start_time = time.time()
-
-                    ret, frame = cap.read()
-                    if not ret:
-                        st.error("Failed to grab frame from camera")
-                        break
+                        ret, frame = cap.read()
+                        if not ret:
+                            st.error("Failed to grab frame from camera")
+                            break
 
                     frame_count += 1
 
