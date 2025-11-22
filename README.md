@@ -7,6 +7,8 @@ A real-time people and vehicle detection system powered by YOLOv8, featuring per
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
+## ✨ [Site Link](https://traffic-counter-cv.streamlit.app)
+
 ## ✨ Features
 
 ### 🎯 Detection Capabilities
