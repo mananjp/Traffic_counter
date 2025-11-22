@@ -286,28 +286,33 @@ with tab2:
 
         if run_webcam:
             # Check if we're in a cloud environment
-            if os.environ.get('NETLIFY') or os.environ.get('HEROKU') or os.environ.get('STREAMLIT_SHARING'):
+            is_cloud = (os.environ.get('NETLIFY') or os.environ.get('HEROKU') or 
+                       os.environ.get('STREAMLIT_SHARING') or os.environ.get('STREAMLIT_CLOUD') or
+                       os.environ.get('HOSTNAME', '').startswith('streamlit') or
+                       'streamlit.app' in os.environ.get('SERVER_NAME', ''))
+            
+            if is_cloud:
                 st.warning("⚠️ Webcam access is not available in cloud deployments. Please use video upload instead.")
                 st.info("This limitation exists because cloud servers don't have access to your local camera.")
                 run_webcam = False
             else:
                 cap = cv2.VideoCapture(camera_index)
+                
+                if not cap.isOpened():
+                    st.error(f"❌ Cannot access camera {camera_index}. Please check your camera or try a different index.")
+                else:
+                    st.success(f"✅ Camera {camera_index} connected successfully!")
 
-            if not cap.isOpened():
-                st.error(f"❌ Cannot access camera {camera_index}. Please check your camera or try a different index.")
-            else:
-                st.success(f"✅ Camera {camera_index} connected successfully!")
+                    frame_count = 0
+                    fps_queue = deque(maxlen=30)
 
-                frame_count = 0
-                fps_queue = deque(maxlen=30)
+                    while run_webcam:
+                        start_time = time.time()
 
-                while run_webcam:
-                    start_time = time.time()
-
-                    ret, frame = cap.read()
-                    if not ret:
-                        st.error("Failed to grab frame from camera")
-                        break
+                        ret, frame = cap.read()
+                        if not ret:
+                            st.error("Failed to grab frame from camera")
+                            break
 
                     frame_count += 1
 
