@@ -24,7 +24,9 @@ st.set_page_config(
 
 # Database initialization
 def init_database():
-    conn = sqlite3.connect('traffic_data.db', check_same_thread=False)
+    # Use a relative path for better deployment compatibility
+    db_path = os.path.join(os.getcwd(), 'traffic_data.db')
+    conn = sqlite3.connect(db_path, check_same_thread=False)
     c = conn.cursor()
     c.execute('''
         CREATE TABLE IF NOT EXISTS detections (
@@ -53,7 +55,11 @@ def save_detection(conn, people_count, car_count, session_id):
 # Load model with caching
 @st.cache_resource
 def load_model():
-    return YOLO('yolov8n.pt')
+    model_path = 'yolov8n.pt'
+    if not os.path.exists(model_path):
+        st.error(f"Model file not found: {model_path}. Please ensure the model is downloaded.")
+        st.stop()
+    return YOLO(model_path)
 
 
 # Initialize session state
@@ -279,7 +285,13 @@ with tab2:
         CAR_CLASS_IDS = [2, 3, 5, 7]
 
         if run_webcam:
-            cap = cv2.VideoCapture(camera_index)
+            # Check if we're in a cloud environment
+            if os.environ.get('NETLIFY') or os.environ.get('HEROKU') or os.environ.get('STREAMLIT_SHARING'):
+                st.warning("⚠️ Webcam access is not available in cloud deployments. Please use video upload instead.")
+                st.info("This limitation exists because cloud servers don't have access to your local camera.")
+                run_webcam = False
+            else:
+                cap = cv2.VideoCapture(camera_index)
 
             if not cap.isOpened():
                 st.error(f"❌ Cannot access camera {camera_index}. Please check your camera or try a different index.")

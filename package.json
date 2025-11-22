@@ -1,0 +1,21 @@
+{
+  "name": "yolo-traffic-counter",
+  "version": "1.0.0",
+  "description": "Real-time people and vehicle detection system powered by YOLOv8",
+  "scripts": {
+    "build": "python setup.py",
+    "start": "streamlit run traffic_counter.py --server.port=8501 --server.address=0.0.0.0 --server.headless=true"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "keywords": [
+    "yolo",
+    "computer-vision",
+    "object-detection",
+    "traffic-counter",
+    "streamlit"
+  ],
+  "author": "Ansh Dhanani",
+  "license": "MIT"
+}

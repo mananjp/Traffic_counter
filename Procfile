@@ -1,0 +1,1 @@
+web: streamlit run traffic_counter.py --server.port=$PORT --server.address=0.0.0.0 --server.headless=true
